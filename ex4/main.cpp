@@ -1,5 +1,4 @@
 #include<bits/stdc++.h>
-
 using namespace std;
 
 long double* jacobi( long double* x ){
@@ -16,11 +15,8 @@ long double* jacobi( long double* x ){
 }
 
 void printX( long double* x ){
-
-    for( int i = 0; i < 7; i++ ){
+    for( int i = 0; i < 7; i++ )
         cout << "x" << i + 1 << " = " << x[i] << endl;
-    }
-
 }
 
 int main(){
@@ -30,13 +26,9 @@ int main(){
 
     x = (long double*) malloc( sizeof( long double ) * 7 );
 
-    cin >> x[0];
-    cin >> x[1];
-    cin >> x[2];
-    cin >> x[3];
-    cin >> x[4];
-    cin >> x[5];
-    cin >> x[6];
+    for( int i = 0; i < 7; i++ )
+        cin >> x[i];
+
     cin >> n;
 
     for( int i = 2; i <= n; i++ ){
