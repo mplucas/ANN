@@ -1,16 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<float> multPxP( vector<float> p1, vector<float> p2 ){
+vector<double> multPxP( vector<double> p1, vector<double> p2 ){
 
     int n1 = p1.size();
     int n2 = p2.size();
 
-    vector<float> ans( n1 + n2 - 1, 0 );
+    vector<double> ans( n1 + n2 - 1, 0 );
 
-    for( int i = 0; i < p1.size(); i++ ){
+    for( unsigned int i = 0; i < p1.size(); i++ ){
 
-        for( int j = 0; j < p2.size(); j++ ){
+        for( unsigned int j = 0; j < p2.size(); j++ ){
 
             ans[ ((n1-1) - i) + ((n2-1) - j) ] += p1[i] * p2[j];
 
@@ -22,27 +22,34 @@ vector<float> multPxP( vector<float> p1, vector<float> p2 ){
 
 }
 
-vector<vector<float>> calculaLs( vector<vector<float>> ps ){
+vector<vector<double>> calculaLs( vector<vector<double>> ps ){
 
-    vector<vector<vector<float>>> ds;
-    vector<vector<float>> ls;
+    vector<vector<vector<double>>> ds;
+    vector<vector<double>> ls;
 
-    for( int i = 0; i < ps.size(); i++ ){
+    for( unsigned int i = 0; i < ps.size(); i++ ){
 
-        ds.push_back(vector<vector<float>>());
+        ds.push_back(vector<vector<double>>());
 
-        for( int j = 0; j < ps.size(); j++ ){
+        for( unsigned int j = 0; j < ps.size(); j++ ){
 
             if( i == j )
                 continue;
 
-            ds[i].push_back( { 1 / (ps[i][0] - ps[j][0]), -ps[j][0] / (ps[i][0] - ps[j][0]) } );
+            vector<double> aux;
+
+            aux.push_back( 1 / (ps[i][0] - ps[j][0]) );
+            aux.push_back( -ps[j][0] / (ps[i][0] - ps[j][0]) );
+
+            //printf("%f %f %lu %f %i %f %f\n", aux[0], aux[1], aux.size(), (ps[i][0] - ps[j][0]), j, ps[i][0], - ps[j][0] );
+
+            ds[i].push_back(aux);
 
         }
 
-        vector<float> ans = ds[i][0];
+        vector<double> ans = ds[i][0];
 
-        for( int j = 1; j < ds[i].size(); j++  ){
+        for( unsigned int j = 1; j < ds[i].size(); j++  ){
 
             ans = multPxP( ans, ds[i][j] );
 
@@ -56,11 +63,13 @@ vector<vector<float>> calculaLs( vector<vector<float>> ps ){
 
 }
 
-vector<float> multPxY( vector<float> p, float y ){
+vector<double> multPxY( vector<double> p, double y ){
 
-    vector<float> ans( p.size() );
+    vector<double> ans( p.size() );
 
-    for( int i = 0; i < p.size(); i++ ){
+    //printf("%f\n", y);
+
+    for( unsigned int i = 0; i < p.size(); i++ ){
         ans[i] = p[i] * y;
     }
 
@@ -69,12 +78,14 @@ vector<float> multPxY( vector<float> p, float y ){
 }
 
 // vetores devem ter o mesmo tamanho
-vector<float> addPxP( vector<float> p1, vector<float> p2 ){
+vector<double> addPxP( vector<double> p1, vector<double> p2 ){
 
-    vector<float> ans( p1.size() );
+    vector<double> ans( p1.size() );
 
-    for( int i = 0; i < p1.size(); i++ ){
+    //printf( "teste\n" );
+    for( unsigned int i = 0; i < p1.size(); i++ ){
         ans[i] = p1[i] + p2[i];
+        //printf("%.8f %.8f %.8f\n",p1[i], p2[i], ans[i]);
     }
 
     return ans;
@@ -82,12 +93,15 @@ vector<float> addPxP( vector<float> p1, vector<float> p2 ){
 }
 
 int main(){
-    
-    vector<vector<float>> ps;
-    float x, y;
-    vector<float> p;
 
-    while( scanf( "%f %f", &x, &y ) != EOF ){
+    setbuf(stdout, NULL);
+    
+    vector<vector<double>> ps;
+    double x, y;
+
+    while( scanf( "%lf %lf", &x, &y ) != EOF ){
+
+        vector<double> p;
 
         p.push_back( x );
         p.push_back( y );
@@ -96,20 +110,30 @@ int main(){
 
     }
 
-    vector<vector<float>> ls;
+    // for( auto p:ps ){
+    //     printf("%f %f %lu\n", p[0], p[1], p.size());
+    // }
+
+    vector<vector<double>> ls;
 
     ls = calculaLs( ps );
 
-    vector<float> ans( ls[0].size(), 0 );
+    // for( auto l:ls ){
+    //     for(auto d:l)
+    //         printf("%f ", d);
+    //     printf("%lu\n", l.size());
+    // }
 
-    for( int i = 0; i < ls.size(); i++ ){
+    vector<double> ans( ls[0].size(), 0 );
+
+    for( unsigned int i = 0; i < ls.size(); i++ ){
 
         ans = addPxP( ans, multPxY( ls[i], ps[i][1] ) );
 
     }
 
-    for( int i = 0; i < ans.size(); i++ ){
-        printf( "a%i: %.8f\n", i, ans[i]);
+    for( unsigned int i = 0; i < ans.size(); i++ ){
+        printf( "a%i: %.8f\n", ans.size() - 1 - i, ans[i]);
     }
 
     return 0;
