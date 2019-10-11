@@ -5,9 +5,9 @@ ys = []
 
 try:
   while True:
-    um, dois = map(float, input().split())
-    xs.append([1,um])
-    ys.append(dois)
+    x, y = map(float, input().split())
+    xs.append([1,x])
+    ys.append(y)
 
 except:
   pass
