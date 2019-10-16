@@ -12,7 +12,7 @@ vector<double> multPxP( vector<double> p1, vector<double> p2 ){
 
         for( unsigned int j = 0; j < p2.size(); j++ ){
 
-            ans[ ((n1-1) - i) + ((n2-1) - j) ] += p1[i] * p2[j];
+            ans[ ((n1-1) - i) + ((n2-1) - j) ] += p1[(n1-1) - i] * p2[(n2-1) - j];
 
         }
 
@@ -49,11 +49,30 @@ vector<vector<double>> calculaLs( vector<vector<double>> ps ){
 
         vector<double> ans = ds[i][0];
 
+        // printf("[");
+        // for( auto a:ans ){
+        //     printf("%lf ", a);
+        // }
+        // printf("] * [");
+
         for( unsigned int j = 1; j < ds[i].size(); j++  ){
 
             ans = multPxP( ans, ds[i][j] );
+            // for( auto a:ds[i][j] ){
+            //     printf("%lf ", a);
+            // }
+            // printf("] = [");
+            // for( auto a:ans ){
+            //     printf("%lf ", a);
+            // }
+            // printf("]\n[");
 
         }
+
+        // for( auto a:ans ){
+        //     printf("%lf ", a);
+        // }
+        // printf("\n");
 
         ls.push_back( ans );
 
@@ -95,7 +114,7 @@ vector<double> addPxP( vector<double> p1, vector<double> p2 ){
 int main(){
 
     setbuf(stdout, NULL);
-    
+
     vector<vector<double>> ps;
     double x, y;
 
@@ -126,10 +145,23 @@ int main(){
 
     vector<double> ans( ls[0].size(), 0 );
 
+    // printf("\n" );
+
     for( unsigned int i = 0; i < ls.size(); i++ ){
 
-        ans = addPxP( ans, multPxY( ls[i], ps[i][1] ) );
+        // printf("[");
+        // for( auto a:ls[i] ){
+        //     printf("%lf ", a);
+        // }
 
+        // ans = addPxP( ans, multPxY( ls[i], ps[i][1] ) );
+        ans = addPxP( ans, ls[i] );
+
+        // printf("] * %lf = [",ps[i][1]);
+        // for( auto a:ans ){
+        //     printf("%lf ", a);
+        // }
+        // printf("]\n\n");
     }
 
     for( unsigned int i = 0; i < ans.size(); i++ ){
