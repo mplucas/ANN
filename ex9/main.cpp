@@ -8,9 +8,9 @@ vector<double> multPxP( vector<double> p1, vector<double> p2 ){
 
     vector<double> ans( n1 + n2 - 1, 0 );
 
-    for( unsigned int i = 0; i < p1.size(); i++ ){
+    for( unsigned int i = 0; i < n1; i++ ){
 
-        for( unsigned int j = 0; j < p2.size(); j++ ){
+        for( unsigned int j = 0; j < n2; j++ ){
 
             ans[ ((n1-1) - i) + ((n2-1) - j) ] += p1[(n1-1) - i] * p2[(n2-1) - j];
 
@@ -143,11 +143,24 @@ int main(){
     //     printf("%lu\n", l.size());
     // }
 
-    vector<double> ans( ls[0].size(), 0 );
+    vector<double> lxs( ls.size(), 0 );
+
+    for( unsigned int i = 0; i < ls.size(); i++ ){
+
+        unsigned int tam = ls[i].size();
+        unsigned int j;
+
+        for( j = 0; j < tam; j++ ){
+            lxs[i] += ls[i][j] * pow( ps[i][0], (tam - 1) - j );
+        }
+
+    }
+
+    vector<double> ans( lxs.size() );
 
     // printf("\n" );
 
-    for( unsigned int i = 0; i < ls.size(); i++ ){
+    for( unsigned int i = 0; i < lxs.size(); i++ ){
 
         // printf("[");
         // for( auto a:ls[i] ){
@@ -155,17 +168,19 @@ int main(){
         // }
 
         // ans = addPxP( ans, multPxY( ls[i], ps[i][1] ) );
-        ans = addPxP( ans, ls[i] );
+        // ans = addPxP( ans, ls[i] );
 
         // printf("] * %lf = [",ps[i][1]);
         // for( auto a:ans ){
         //     printf("%lf ", a);
         // }
         // printf("]\n\n");
+
+        ans[i] = ps[i][1] / lxs[i];
     }
 
     for( unsigned int i = 0; i < ans.size(); i++ ){
-        printf( "a%i: %.8f\n", ans.size() - 1 - i, ans[i]);
+        printf( "a%lu: %.8f\n", ans.size() - 1 - i, ans[i]);
     }
 
     return 0;
